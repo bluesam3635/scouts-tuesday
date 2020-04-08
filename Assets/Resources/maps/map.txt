@@ -1,0 +1,7 @@
+(255,255,255)Ground
+(0,255,0)Platform
+(255,0,0)TrapTile
+(0,0,255)BreakableWall
+(255,0,255)TriggerTile
+(255,255,0)Enemy
+(0,255,255)Character
