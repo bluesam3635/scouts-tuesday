@@ -11,7 +11,7 @@ public enum triggerType
     givePoints
 }
 
-public class levelEnd : MonoBehaviour 
+public class triggerScript : MonoBehaviour 
 {
     [SerializeField]public triggerType type;
     private MapLoader ml;
@@ -51,7 +51,7 @@ public class levelEnd : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		ml = GameObject.Find("WorldController").GetComponent<MapLoader>();
-        c = GameObject.Find("Character");
+        c = GameObject.Find("Character(Clone)");
  //       item = pickup.GetComponent<item>();
         gc = GameObject.Find("WorldController").GetComponent<GameController>();
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityStandardAssets._2D;
+using System.Drawing;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -40,7 +41,7 @@ using UnityStandardAssets._2D;
 
 
     public class MapLoader : MonoBehaviour {
-        [SerializeField] GameObject camera;
+        [SerializeField] GameObject cam;
         void Start()
         {
             string detailFile = "Assets/Resources/maps/map.txt";
@@ -123,10 +124,13 @@ using UnityStandardAssets._2D;
         }
         public void LoadMap(string name)
         {
-            Texture2D mapImage = Resources.Load<Texture2D>("maps/"+name);
-            var pixelArray = mapImage.GetPixels();
-            int width = mapImage.width;
-            int height = mapImage.height; 
+            var dir = Directory.GetCurrentDirectory();
+            dir += "/Assets/Resources/maps/";
+            var mapname = dir + name;
+            Image im = Image.FromFile(mapname + ".png");
+            Bitmap bm = new Bitmap(im);
+            int width = im.Width;
+            int height = im.Height; 
             for(int row = 0; row < height; ++row)
             {
                 //load row
@@ -134,13 +138,13 @@ using UnityStandardAssets._2D;
                 {
                     //load pixel
                     Vector3Int vec = new Vector3Int(0,0,0);
-                    vec.x = Mathf.RoundToInt(pixelArray[row*width+col].r*255);
-                    vec.y = Mathf.RoundToInt(pixelArray[row*width+col].g*255);
-                    vec.z = Mathf.RoundToInt(pixelArray[row*width+col].b*255);
+                    vec.x = Mathf.RoundToInt(bm.GetPixel(col,row).R);
+                    vec.y = Mathf.RoundToInt(bm.GetPixel(col,row).G);
+                    vec.z = Mathf.RoundToInt(bm.GetPixel(col,row).B);
                     if (types.ContainsKey(vec))
                     {
                         //there's something in that space
-                        SpawnTile(row,col,vec);
+                        SpawnTile(height - row,col,vec);
                     }
                 }
             }
@@ -154,8 +158,8 @@ using UnityStandardAssets._2D;
             tile.transform.parent = transform;
             if (name == "Character")
             {
-                camera.GetComponent<Camera2DFollow>().target = tile.transform;
-                camera.transform.position = tile.transform.position;
+                cam.GetComponent<Camera2DFollow>().target = tile.transform;
+                cam.transform.position = tile.transform.position;
             }
         }
 
