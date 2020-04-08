@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityStandardAssets._2D;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -39,6 +40,7 @@ using System.IO;
 
 
     public class MapLoader : MonoBehaviour {
+        [SerializeField] GameObject camera;
         void Start()
         {
             string detailFile = "Assets/Resources/maps/map.txt";
@@ -65,7 +67,6 @@ using System.IO;
                 int g = 0;
                 int b = 0;
                 string name = "";
-                Debug.Log("Reading line: " + line);
                 for (int i = 0; i < line.Length; ++i)
                 {
                     if (""+line[i] == "(")
@@ -116,7 +117,6 @@ using System.IO;
                         }
                     }
                 }
-                Debug.Log("We have tile type '"  + name + "' with colour value " + new Color(((float)r)/255f,(float)g/255f,(float)b/255f,0));
                 types.Add(new Vector3Int(r,g,b),name);
                 
             }
@@ -130,7 +130,7 @@ using System.IO;
             for(int row = 0; row < height; ++row)
             {
                 //load row
-                for (int col = 0; col < height; ++col)
+                for (int col = 0; col < width; ++col)
                 {
                     //load pixel
                     Vector3Int vec = new Vector3Int(0,0,0);
@@ -152,6 +152,11 @@ using System.IO;
             tile = GameObject.Instantiate((GameObject)Resources.Load("Prefabs/"+name));
             tile.transform.position += new Vector3(col,row,0);
             tile.transform.parent = transform;
+            if (name == "Character")
+            {
+                camera.GetComponent<Camera2DFollow>().target = tile.transform;
+                camera.transform.position = tile.transform.position;
+            }
         }
 
     }

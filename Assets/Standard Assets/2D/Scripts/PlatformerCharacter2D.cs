@@ -160,6 +160,10 @@ namespace UnityStandardAssets._2D
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
-        }
+            Vector3 leftPos = transform.Find("LeftCheck").localPosition;
+            Vector3 rightPos = -leftPos;
+            transform.Find("LeftCheck").localPosition = rightPos;
+            transform.Find("RightCheck").localPosition = leftPos;
+        } 
     }
 }

@@ -24,7 +24,7 @@ public class levelEnd : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.name == "Character")
+        if (c.name == "Character(Clone)")
         {
             switch (type)
             {
