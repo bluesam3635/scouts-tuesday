@@ -5,3 +5,4 @@
 (255,0,255)TriggerTile
 (255,255,0)Enemy
 (0,255,255)Character
+(100,100,100)Collectable
